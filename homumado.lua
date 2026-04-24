@@ -30,7 +30,7 @@ local config = {
     KeyFile = "yuri/savedkey.txt",
     Title = "Yuri",
     LinkvertiseURL = "https://ads.luarmor.net/get_key?for=Yuri-ODPllbErcWEJ",
-    DiscordURL = "https://discord.gg/E6jmwqkpM"
+    DiscordURL = "https://discord.gg/b6kxdDtqd"
 }
 local luarmor_api = loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
 luarmor_api.script_id = script_id
