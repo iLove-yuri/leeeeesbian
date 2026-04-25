@@ -342,9 +342,8 @@ task.spawn(function()
     end
 end)
 queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
-local TeleportCheck = false
 Players.LocalPlayer.OnTeleport:Connect(function(State)
-	if KeepScriptLoaded and (not TeleportCheck) and queueteleport then
+	if _G.autoExec and queueteleport then
 		TeleportCheck = true
 		queueteleport([[
 			loadstring(game:HttpGet('https://raw.githubusercontent.com/iLove-yuri/leeeeesbian/refs/heads/main/homumado.lua'))()
