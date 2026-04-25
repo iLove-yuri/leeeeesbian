@@ -6,17 +6,15 @@ local Players = cloneref(game:GetService("Players"))
 local TweenService = cloneref(game:GetService("TweenService"))
 local UserInputService = cloneref(game:GetService("UserInputService"))
 local Workspace = cloneref(game:GetService("Workspace"))
-
 local plr = Players.LocalPlayer
-
 local list = {
-	["5130394318"] = {id = "1b1251046fd4407c1d8f7e90cb337aeb", keyless = false }, -- Bizarre Lineage
+	["5130394318"] = {id = "1b1251046fd4407c1d8f7e90cb337aeb", keyless = false }, --- bizarre lineage
+	["7359962123"] = {id = "606ff7b9ea1d1c897761b2f0c218f3d9", keyless = false }, --- aac
+	["1709917610"] = {id = "1a8a31e1f73770905420267556ed741d", keyless = false } -- regretevator
 }
-
 local executor_name = getexecutorname():match("^%s*(.-)%s*$")
 local game_id = tostring(game.GameId)
 local game_config = list[game_id]
-
 if not game_config then
 	plr:Kick("This game is not supported.")
 	return
@@ -30,6 +28,7 @@ local config = {
     KeyFile = "yuri/savedkey.txt",
     Title = "Yuri",
     LinkvertiseURL = "https://ads.luarmor.net/get_key?for=Yuri-ODPllbErcWEJ",
+    WorkinkURL = "https://ads.luarmor.net/get_key?for=Lesbian-pCiCBJScuyDv",
     DiscordURL = "https://discord.gg/b6kxdDtqd"
 }
 local luarmor_api = loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
@@ -213,8 +212,9 @@ local function createButton(text, color)
     end)
     return btn
 end
-local getLinkBtn = createButton("Get Key (Linkvertise)", theme.Button)
 local checkKeyBtn = createButton("Check Key", theme.Button)
+local getLinkBtn = createButton("Get Key (Linkvertise)", theme.Button)
+local getWorkinkBtn = createButton("Get Key (Work.ink)", theme.Button)
 local discordBtn = createButton("Discord Support", theme.Button)
 local function notify(text, color)
     statusLabel.Text = text
@@ -289,6 +289,10 @@ end
 getLinkBtn.MouseButton1Click:Connect(function()
     setclipboard(config.LinkvertiseURL)
     notify("✓ Linkvertise link copied to clipboard", theme.Success)
+end)
+getWorkinkBtn.MouseButton1Click:Connect(function()
+    setclipboard(config.WorkinkURL)
+    notify("✓ Work.ink link copied to clipboard", theme.Success)
 end)
 checkKeyBtn.MouseButton1Click:Connect(function()
     local key = keyTextBox.Text
