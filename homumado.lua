@@ -23,12 +23,7 @@ if not game_config then
 end
 local script_id = game_config.id
 local is_key_less = game_config.keyless
-if is_key_less then
-    pcall(function()
-        luarmor_api.load_script()
-    end)
-    return
-end
+
 if CoreGui:FindFirstChild("iLoveyuri") then
     CoreGui.iLoveyuri:Destroy()
 end
@@ -41,6 +36,12 @@ local config = {
 }
 local luarmor_api = loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
 luarmor_api.script_id = script_id
+if is_key_less then
+    pcall(function()
+        luarmor_api.load_script()
+    end)
+    return
+end
 local IsMobile = UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled
 local theme = {
     BG = Color3.fromRGB(10, 10, 10),
