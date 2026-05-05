@@ -339,6 +339,13 @@ closeBtn.MouseLeave:Connect(function()
     }):Play()
 end)
 task.spawn(function()
+    if script_key and script_key ~= "" then
+        keyTextBox.Text = script_key
+        notify("Auto-filling key...", theme.Accent)
+        wait(0.5)
+        validateKey(script_key)
+        return
+    end
     if isfile(config.KeyFile) then
         local savedKey = readfile(config.KeyFile)
         notify("Checking saved key...", theme.Accent)
