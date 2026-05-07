@@ -13,7 +13,8 @@ local list = {
 	["1709917610"] = {id = "1a8a31e1f73770905420267556ed741d", keyless = true }, -- regretevator
 	["9186719164"] = {id = "2e85411f515c33094f504d7c6b198a35", keyless = true }, --- sailor piece
 	["9792947201"] = {id = "d8e39dd7c8bfa5015a2c48dc361d656f", keyless = false }, --- slime rng
-	["4658598196"] = {id = "a3cefccb299c6afcd29ba88768212ea2", keyless = false } --- aotr
+	["4658598196"] = {id = "a3cefccb299c6afcd29ba88768212ea2", keyless = false }, --- aotr
+	["89469502395769"] = {id = "3781eb1fc444bef291a013c0e69f7c2a", keyless = false } --brainrot
 }
 local executor_name = getexecutorname():match("^%s*(.-)%s*$")
 local game_id = tostring(game.GameId)
