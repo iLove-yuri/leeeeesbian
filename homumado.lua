@@ -45,7 +45,6 @@ if is_key_less then
     return
 end
 
--- Early exit: skip GUI if savedkey.txt exists
 if isfile(config.KeyFile) then
     local savedKey = readfile(config.KeyFile):gsub("%s", "")
     local success, result = pcall(function()
