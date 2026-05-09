@@ -44,6 +44,24 @@ if is_key_less then
     end)
     return
 end
+
+if isfile(config.KeyFile) then
+    local savedKey = readfile(config.KeyFile):gsub("%s", "")
+    local success, result = pcall(function()
+        return luarmor_api.check_key(savedKey)
+    end)
+    if success and result.code == "KEY_VALID" then
+        pcall(function()
+            luarmor_api.load_script()
+        end)
+        return
+    else
+        delfile(config.KeyFile)
+        plr:Kick("Saved key is invalid or expired. Re-run the script to get a new one.")
+        return
+    end
+end
+
 local IsMobile = UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled
 local theme = {
     BG = Color3.fromRGB(10, 10, 10),
@@ -347,17 +365,7 @@ task.spawn(function()
         validateKey(script_key)
         return
     end
-    if isfile(config.KeyFile) then
-        local savedKey = readfile(config.KeyFile)
-        notify("Checking saved key...", theme.Accent)
-        wait(0.5)
-        if validateKey(savedKey) then
-            return
-        else
-            delfile(config.KeyFile)
-            notify("Saved key expired. Get a new one.", theme.Error)
-        end
-    end
+
 end)
 queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
 Players.LocalPlayer.OnTeleport:Connect(function(State)
