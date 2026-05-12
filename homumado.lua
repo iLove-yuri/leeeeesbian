@@ -9,12 +9,13 @@ local Workspace = cloneref(game:GetService("Workspace"))
 local plr = Players.LocalPlayer
 local list = {
 	["5130394318"] = {id = "1b1251046fd4407c1d8f7e90cb337aeb", keyless = false }, --- bizarre lineage
-	["7359962123"] = {id = "606ff7b9ea1d1c897761b2f0c218f3d9", keyless = false }, --- aac
+	["7359962123"] = {id = "f3cdf28dc70b1249611f4d9e92b15c4e", keyless = false }, --- aac
 	["9348272796"] = {id = "333ab337fee88fead35c017058b2d507", keyless = false }, -- zombie arena
 	["9186719164"] = {id = "2e85411f515c33094f504d7c6b198a35", keyless = true }, --- sailor piece
 	["9792947201"] = {id = "d8e39dd7c8bfa5015a2c48dc361d656f", keyless = false }, --- slime rng
 	["4658598196"] = {id = "a3cefccb299c6afcd29ba88768212ea2", keyless = false }, --- aotr
 	["10004244222"] = {id = "3781eb1fc444bef291a013c0e69f7c2a", keyless = false } --brainrot
+	["5361032378"] = {id = "c1376a584301860e72d25db38c5557b3", keyless = true } --sol
 }
 local executor_name = getexecutorname():match("^%s*(.-)%s*$")
 local game_id = tostring(game.GameId)
@@ -32,9 +33,10 @@ end
 local config = {
     KeyFile = "yuri/savedkey.txt",
     Title = "Yuri",
+    AAC = "https://ads.luarmor.net/get_key?for=AAC-iugtlcjdSYXB",
     LinkvertiseURL = "https://ads.luarmor.net/get_key?for=Yuri-ODPllbErcWEJ",
     WorkinkURL = "https://ads.luarmor.net/get_key?for=Lesbian-pCiCBJScuyDv",
-    DiscordURL = "https://discord.gg/b6kxdDtqd"
+    DiscordURL = "https://discord.gg/b6kxdDtqd",
 }
 local luarmor_api = loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
 luarmor_api.script_id = script_id
@@ -247,8 +249,10 @@ local function createButton(text, color)
     return btn
 end
 local checkKeyBtn = createButton("Check Key", theme.Button)
+local getAACBtn = createButton("Get Key (AAC)", theme.Button)
 local getLinkBtn = createButton("Get Key (Linkvertise)", theme.Button)
 local getWorkinkBtn = createButton("Get Key (Work.ink)", theme.Button)
+getAACBtn.TextColor3 = Color3.fromRGB(255, 105, 180)
 local discordBtn = createButton("Discord Support", theme.Button)
 local function notify(text, color)
     statusLabel.Text = text
@@ -327,6 +331,10 @@ end)
 getWorkinkBtn.MouseButton1Click:Connect(function()
     setclipboard(config.WorkinkURL)
     notify("✓ Work.ink link copied to clipboard", theme.Success)
+end)
+getAACBtn.MouseButton1Click:Connect(function()
+    setclipboard(config.AAC)
+    notify("✓ AAC link copied to clipboard", Color3.fromRGB(255, 105, 180))
 end)
 checkKeyBtn.MouseButton1Click:Connect(function()
     local key = keyTextBox.Text
