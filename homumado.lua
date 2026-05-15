@@ -11,7 +11,7 @@ local list = {
 	["5130394318"] = {id = "1b1251046fd4407c1d8f7e90cb337aeb", keyless = false }, --- bizarre lineage
 	["7359962123"] = {id = "f3cdf28dc70b1249611f4d9e92b15c4e", keyless = false }, --- aac
 	["9348272796"] = {id = "333ab337fee88fead35c017058b2d507", keyless = false }, -- zombie arena
-	["9186719164"] = {id = "2e85411f515c33094f504d7c6b198a35", keyless = true }, --- sailor piece
+	["9987781584"] = {id = "d310529bba1c9560607c620cc8664b89", keyless = false }, --- sailor piece
 	["9792947201"] = {id = "d8e39dd7c8bfa5015a2c48dc361d656f", keyless = false }, --- slime rng
 	["4658598196"] = {id = "a3cefccb299c6afcd29ba88768212ea2", keyless = false }, --- aotr
 	["10004244222"] = {id = "3781eb1fc444bef291a013c0e69f7c2a", keyless = false }, --brainrot
