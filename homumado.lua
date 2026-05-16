@@ -11,11 +11,11 @@ local list = {
 	["5130394318"] = {id = "1b1251046fd4407c1d8f7e90cb337aeb", keyless = false }, --- bizarre lineage
 	["7359962123"] = {id = "f3cdf28dc70b1249611f4d9e92b15c4e", keyless = false }, --- aac
 	["9348272796"] = {id = "333ab337fee88fead35c017058b2d507", keyless = false }, -- zombie arena
-	["9987781584"] = {id = "d310529bba1c9560607c620cc8664b89", keyless = false }, --- sailor piece
+	["9987781584"] = {id = "d310529bba1c9560607c620cc8664b89", keyless = false }, --- overclock
 	["9792947201"] = {id = "d8e39dd7c8bfa5015a2c48dc361d656f", keyless = false }, --- slime rng
 	["4658598196"] = {id = "a3cefccb299c6afcd29ba88768212ea2", keyless = false }, --- aotr
 	["10004244222"] = {id = "3781eb1fc444bef291a013c0e69f7c2a", keyless = false }, --brainrot
-	["5361032378"] = {id = "c1376a584301860e72d25db38c5557b3", keyless = true }, --sol
+	["6409513651"] = {id = "79c4f538aba5d702cd1b7795737a36d1", keyless = false }, --AW3
 }
 local executor_name = getexecutorname():match("^%s*(.-)%s*$")
 local game_id = tostring(game.GameId)
