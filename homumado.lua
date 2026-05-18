@@ -1,11 +1,33 @@
-repeat wait() until game:IsLoaded()
-local CoreGui = cloneref(game:GetService("CoreGui"))
-local HttpService = cloneref(game:GetService("HttpService"))
-local Lighting = cloneref(game:GetService("Lighting"))
-local Players = cloneref(game:GetService("Players"))
-local TweenService = cloneref(game:GetService("TweenService"))
-local UserInputService = cloneref(game:GetService("UserInputService"))
-local Workspace = cloneref(game:GetService("Workspace"))
+repeat task.wait() until game:IsLoaded()
+repeat task.wait() until game.GameId ~= 0
+function missing(t, f, fallback)
+	if type(f) == t then return f end
+	return fallback
+end
+cloneref = missing("function", cloneref, function(...) return ... end)
+getgc = missing("function", getgc or get_gc_objects)
+getconnections = missing("function", getconnections or get_signal_cons)
+Services = setmetatable({}, {
+	__index = function(self, name)
+		local success, cache = pcall(function()
+			return cloneref(game:GetService(name))
+		end)
+		if success then
+			rawset(self, name, cache)
+			return cache
+		else
+			error("Invalid Service: " .. tostring(name))
+		end
+	end
+})
+
+local CoreGui = Services.CoreGui
+local HttpService = Services.HttpService
+local Lighting = Services.Lighting
+local Players = Services.Players
+local TweenService = Services.TweenService
+local UserInputService = Services.UserInputService
+local Workspace = Services.Workspace
 local plr = Players.LocalPlayer
 local list = {
 	["5130394318"] = {id = "1b1251046fd4407c1d8f7e90cb337aeb", keyless = false }, --- bizarre lineage
@@ -13,7 +35,7 @@ local list = {
 	["9348272796"] = {id = "333ab337fee88fead35c017058b2d507", keyless = false }, -- zombie arena
 	["9987781584"] = {id = "d310529bba1c9560607c620cc8664b89", keyless = false }, --- overclock
 	["9792947201"] = {id = "d8e39dd7c8bfa5015a2c48dc361d656f", keyless = false }, --- slime rng
-	["10006104044"] = {id = "74b4e982b9b980d106fc43e8ca53f248", keyless = false }, --- aotr
+	["10006104044"] = {id = "74b4e982b9b980d106fc43e8ca53f248", keyless = false }, --- chinese
 	["10004244222"] = {id = "3781eb1fc444bef291a013c0e69f7c2a", keyless = false }, --brainrot
 	["6409513651"] = {id = "79c4f538aba5d702cd1b7795737a36d1", keyless = false }, --AW3
 }
@@ -355,7 +377,7 @@ keyTextBox.FocusLost:Connect(function(enterPressed)
 end)
 closeBtn.MouseButton1Click:Connect(function()
     notify("Closing...", theme.Error)
-    wait(0.5)
+    wait(0.1)
     screenGui:Destroy()
 end)
 closeBtn.MouseEnter:Connect(function()
@@ -373,8 +395,8 @@ end)
 task.spawn(function()
     if script_key and script_key ~= "" then
         keyTextBox.Text = script_key
-        notify("Auto-filling key...", theme.Accent)
-        wait(0.5)
+        notify("Filling key...", theme.Accent)
+        wait(0.1)
         validateKey(script_key)
         return
     end
