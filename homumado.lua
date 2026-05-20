@@ -58,7 +58,7 @@ local config = {
     AAC = "https://ads.luarmor.net/get_key?for=AAC-iugtlcjdSYXB",
     LinkvertiseURL = "https://ads.luarmor.net/get_key?for=Yuri-ODPllbErcWEJ",
     WorkinkURL = "https://ads.luarmor.net/get_key?for=Lesbian-pCiCBJScuyDv",
-    DiscordURL = "https://discord.gg/b6kxdDtqd",
+    DiscordURL = "https://discord.gg/VgsVeUxBY",
 }
 local luarmor_api = loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
 luarmor_api.script_id = script_id
@@ -251,7 +251,7 @@ local function createButton(text, color)
     btn.BackgroundColor3 = color or theme.Button
     btn.BorderSizePixel = 0
     btn.AutoButtonColor = false
-    btn.Size = UDim2.new(1, 0, 0, 38)
+    btn.Size = UDim2.new(1, 0, 0, 28)
     btn.Parent = buttonsContainer
     local btnCorner = Instance.new("UICorner", btn)
     btnCorner.CornerRadius = UDim.new(0, 4)
@@ -271,11 +271,11 @@ local function createButton(text, color)
     return btn
 end
 local checkKeyBtn = createButton("Check Key", theme.Button)
+local discordBtn = createButton("Discord Support", theme.Button)
 local getAACBtn = createButton("Get Key (AAC)", theme.Button)
 local getLinkBtn = createButton("Get Key (Linkvertise)", theme.Button)
 local getWorkinkBtn = createButton("Get Key (Work.ink)", theme.Button)
 getAACBtn.TextColor3 = Color3.fromRGB(255, 105, 180)
-local discordBtn = createButton("Discord Support", theme.Button)
 local function notify(text, color)
     statusLabel.Text = text
     statusLabel.TextColor3 = color or theme.Text
