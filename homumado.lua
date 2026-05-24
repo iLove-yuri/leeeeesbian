@@ -35,7 +35,7 @@ local list = {
 	["9348272796"] = {id = "333ab337fee88fead35c017058b2d507", keyless = false }, -- zombie arena
 	["9987781584"] = {id = "d310529bba1c9560607c620cc8664b89", keyless = false }, --- overclock
 	["9792947201"] = {id = "d8e39dd7c8bfa5015a2c48dc361d656f", keyless = false }, --- slime rng
-	["10006104044"] = {id = "74b4e982b9b980d106fc43e8ca53f248", keyless = true }, --- chinese
+	["10006104044"] = {id = "74b4e982b9b980d106fc43e8ca53f248", keyless = false }, --- chinese
 	["5361032378"] = {id = "3781eb1fc444bef291a013c0e69f7c2a", keyless = true}, --sol
 	["6409513651"] = {id = "79c4f538aba5d702cd1b7795737a36d1", keyless = false }, --AW3
 }
