@@ -37,7 +37,7 @@ local list = {
 	["9792947201"] = {id = "d8e39dd7c8bfa5015a2c48dc361d656f", keyless = false }, --- slime rng
 	["10006104044"] = {id = "74b4e982b9b980d106fc43e8ca53f248", keyless = false }, --- chinese
 	["5361032378"] = {id = "3781eb1fc444bef291a013c0e69f7c2a", keyless = true}, --sol
-	["6409513651"] = {id = "79c4f538aba5d702cd1b7795737a36d1", keyless = false }, --AW3
+	["9975893742"] = {id = "79c4f538aba5d702cd1b7795737a36d1", keyless = false }, --brainrot2
 }
 local executor_name = getexecutorname():match("^%s*(.-)%s*$")
 local game_id = tostring(game.GameId)
