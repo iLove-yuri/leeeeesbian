@@ -32,9 +32,9 @@ local plr = Players.LocalPlayer
 local list = {
 	["5130394318"] = {id = "1b1251046fd4407c1d8f7e90cb337aeb", keyless = false }, --- bizarre lineage
 	["7359962123"] = {id = "f3cdf28dc70b1249611f4d9e92b15c4e", keyless = false }, --- aac
-	["9348272796"] = {id = "333ab337fee88fead35c017058b2d507", keyless = false }, -- zombie arena
+	["1831550657"] = {id = "333ab337fee88fead35c017058b2d507", keyless = false }, -- cos
 	["9987781584"] = {id = "d310529bba1c9560607c620cc8664b89", keyless = false }, --- overclock
-	["9584946743"] = {id = "d8e39dd7c8bfa5015a2c48dc361d656f", keyless = false }, --- slime rng
+	["9584946743"] = {id = "d8e39dd7c8bfa5015a2c48dc361d656f", keyless = false }, --- Immortality
 	["10006104044"] = {id = "74b4e982b9b980d106fc43e8ca53f248", keyless = false }, --- chinese
 	["5361032378"] = {id = "3781eb1fc444bef291a013c0e69f7c2a", keyless = true}, --sol
 	["9975893742"] = {id = "79c4f538aba5d702cd1b7795737a36d1", keyless = false }, --brainrot2
