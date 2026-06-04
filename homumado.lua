@@ -33,7 +33,7 @@ local list = {
 	["9866884975"] = {id = "1b1251046fd4407c1d8f7e90cb337aeb", keyless = false }, --- sail boat
 	["7359962123"] = {id = "f3cdf28dc70b1249611f4d9e92b15c4e", keyless = false }, --- aac
 	["1831550657"] = {id = "333ab337fee88fead35c017058b2d507", keyless = false }, -- cos
-	["9987781584"] = {id = "d310529bba1c9560607c620cc8664b89", keyless = false }, --- overclock
+	["10077613599"] = {id = "d310529bba1c9560607c620cc8664b89", keyless = false }, --- tef
 	["9584946743"] = {id = "d8e39dd7c8bfa5015a2c48dc361d656f", keyless = false }, --- Immortality
 	["10006104044"] = {id = "74b4e982b9b980d106fc43e8ca53f248", keyless = false }, --- chinese
 	["7395930870"] = {id = "3781eb1fc444bef291a013c0e69f7c2a", keyless = false}, --lemon
