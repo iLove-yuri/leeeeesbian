@@ -36,7 +36,7 @@ local list = {
 	["10077613599"] = {id = "d310529bba1c9560607c620cc8664b89", keyless = false }, --- tef
 	["9584946743"] = {id = "d8e39dd7c8bfa5015a2c48dc361d656f", keyless = false }, --- Immortality
 	["10111742174"] = {id = "74b4e982b9b980d106fc43e8ca53f248", keyless = false }, --- 🧱
-	["10200395747"] = {id = "3781eb1fc444bef291a013c0e69f7c2a", keyless = false}, --gag2
+	["7037673488"] = {id = "3781eb1fc444bef291a013c0e69f7c2a", keyless = false}, --skeleton
 	["9965411707"] = {id = "79c4f538aba5d702cd1b7795737a36d1", keyless = false }, --ni
 }
 local executor_name = getexecutorname():match("^%s*(.-)%s*$")
