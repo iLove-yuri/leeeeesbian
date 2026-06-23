@@ -13,7 +13,7 @@ local ProtGui   = (protectgui or (syn and syn.protect_gui) or function() end)
 local GetHUI    = (gethui   or function() return CoreGui end)
 local _setclip  = (setclipboard or nil)
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name           = "Testing"
+ScreenGui.Name           = "UILibrary"
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Global
 ScreenGui.DisplayOrder   = 999
 ScreenGui.ResetOnSpawn   = false
@@ -34,16 +34,17 @@ local Library = {
     DepBoxes      = {};
     DepGroupboxes = {};
     OpenedFrames  = {};
-    BackgroundColor      = Color3.fromRGB(10,  10,  10);   
-    MainColor            = Color3.fromRGB(18,  18,  18);   
-    SecondaryColor       = Color3.fromRGB(28,  28,  28);   
+    BackgroundColor      = Color3.fromRGB(20,  20,  20);   
+    MainColor            = Color3.fromRGB(25,  25,  25);   
+    SecondaryColor       = Color3.fromRGB(32,  32,  32);   
     SecondaryHoverColor  = Color3.fromRGB(42,  42,  42);   
-    OutlineColor         = Color3.fromRGB(45,  45,  45);   
-    FontColor            = Color3.fromRGB(200, 200, 200);  
-    AccentFontColor      = Color3.fromRGB(220, 220, 220);  
-    DimColor             = Color3.fromRGB(80,  80,  80);   
-    AccentColor          = Color3.fromRGB(220, 220, 220);  
-    AccentDarkColor      = Color3.fromRGB(160, 160, 160);  
+    OutlineColor         = Color3.fromRGB(60,  60,  60);   
+    FontColor            = Color3.fromRGB(240, 240, 240);   
+    AccentFontColor      = Color3.fromRGB(240, 240, 240);   
+    DimColor             = Color3.fromRGB(150, 150, 150);   
+    AccentColor          = Color3.fromRGB(56,  140, 70);    
+    AccentColorDark      = Color3.fromRGB(37,  93,  47);    
+    AccentDarkColor      = Color3.fromRGB(37,  93,  47);    
     DisabledAccentColor  = Color3.fromRGB(80,  80,  80);
     DisabledTextColor    = Color3.fromRGB(100, 100, 100);
     DisabledOutlineColor = Color3.fromRGB(35,  35,  35);
@@ -59,7 +60,8 @@ local Library = {
     NotifySide = "Right";
     ScreenGui  = ScreenGui;
     Window     = nil;
-    SaveManager = nil;   
+    VideoLink          = "";
+    InnerVideoBackground = nil;  
     LeftNotifArea  = nil;
     RightNotifArea = nil;
 }
@@ -131,6 +133,10 @@ end
 function Library:MapValue(v, fMin, fMax, tMin, tMax)
     return tMin + (tMax - tMin) * ((v - fMin) / math.max(fMax - fMin, 1e-6))
 end
+function Library:GetDarkerColor(color)
+    local h, s, v = Color3.toHSV(color)
+    return Color3.fromHSV(h, s, v / 1.5)
+end
 function Library:SafeCallback(fn, ...)
     if type(fn) ~= "function" then return end
     local ok = xpcall(fn, function(e)
@@ -139,9 +145,6 @@ function Library:SafeCallback(fn, ...)
     return ok
 end
 function Library:AttemptSave()
-    if self.SaveManager and self.SaveManager._AutoSave then
-        self.SaveManager:Save(self.SaveManager._CurrentConfig)
-    end
 end
 function Library:MouseOverFrame(f, input)
     local p, s = f.AbsolutePosition, f.AbsoluteSize
@@ -252,7 +255,7 @@ function Library:Unload()
     for _, c in ipairs(Library.Signals) do pcall(function() c:Disconnect() end) end
     for _, f in ipairs(Library.UnloadFns) do Library:SafeCallback(f) end
     pcall(function() ScreenGui:Destroy() end)
-    getgenv_().Testing = nil
+    getgenv_().UILibrary = nil
 end
 function Library:UpdateDepBoxes()
     for _, dep in next, Library.DepBoxes do
@@ -1188,7 +1191,61 @@ function BaseFuncs:AddDependencyBox()
     setmetatable(DB, BaseFuncs)
     return DB
 end
-BaseAddons          = {}
+function BaseFuncs:AddDependencyGroupbox(name)
+    local self2 = self
+    local DGB   = { Elements={}; Rules={} }
+    local gOuter = Library:Create("Frame", {
+        BackgroundColor3=Library.MainColor; BorderSizePixel=0;
+        Size=UDim2.new(1,0,0,40); Visible=false; ZIndex=4; Parent=self.Container
+    })
+    Corner(5, gOuter)
+    local gS = Stroke(Library.OutlineColor, 1, gOuter)
+    Library:AddToRegistry(gOuter, { BackgroundColor3 = "MainColor" })
+    Library:AddToRegistry(gS,     { Color = "OutlineColor" })
+    local stripe = Library:Create("Frame", {
+        BackgroundColor3=Library.AccentColor; BorderSizePixel=0;
+        Size=UDim2.new(1,0,0,2); ZIndex=5; Parent=gOuter
+    })
+    Corner(5, stripe)
+    Library:Create("Frame", {
+        BackgroundColor3=Library.AccentColor; BorderSizePixel=0;
+        Position=UDim2.new(0,0,1,-3); Size=UDim2.new(1,0,0,3); ZIndex=5; Parent=stripe
+    })
+    Library:AddToRegistry(stripe, { BackgroundColor3 = "AccentColor" })
+    if name then
+        Library:CreateLabel({
+            Position=UDim2.fromOffset(8,4); Size=UDim2.new(1,-16,0,16);
+            TextSize=13; Text=name;
+            TextXAlignment=Enum.TextXAlignment.Left; ZIndex=5; Parent=gOuter
+        })
+    end
+    local cont = Library:Create("Frame", {
+        BackgroundTransparency=1; Position=UDim2.fromOffset(6,22);
+        Size=UDim2.new(1,-8,1,-24); ZIndex=4; Parent=gOuter
+    })
+    List(nil, nil, 0, cont)
+    DGB.Container = cont
+    DGB.BoxOuter  = gOuter
+    function DGB:Resize()
+        local h = 0
+        for _, el in ipairs(cont:GetChildren()) do
+            if not el:IsA("UIListLayout") and el.Visible then
+                h = h + el.Size.Y.Offset
+            end
+        end
+        gOuter.Size = UDim2.new(1, 0, 0, h + 26)
+        self2:Resize()
+    end
+    function DGB:SetDependencies(rules)
+        DGB.Rules = rules
+        table.insert(Library.DepGroupboxes, { Outer=gOuter; Rules=rules })
+        Library:UpdateDepGroupboxes()
+    end
+    setmetatable(DGB, BaseFuncs)
+    DGB:AddBlank(3)
+    return DGB
+end
+local BaseAddons          = {}
 BaseAddons.__index  = BaseAddons
 function BaseAddons:AddColorPicker(idx, info)
     info = info or {}
@@ -1415,7 +1472,7 @@ function BaseAddons:AddColorPicker(idx, info)
     CP.Default = CP.Value
     table.insert(parent.Addons or {}, CP)
     Options[idx] = CP
-    return CP
+    return parent  
 end
 function BaseAddons:AddKeyPicker(idx, info)
     info = info or {}
@@ -1534,198 +1591,74 @@ function BaseAddons:AddKeyPicker(idx, info)
     KP.Default = info.Default
     table.insert(parent.Addons or {}, KP)
     Options[idx] = KP
-    return KP
+    return parent  
+end
+function BaseAddons:AddDropdown(idx, info)
+    info = info or {}
+    local parent = self
+    local lbl    = parent.TextLabel
+    local DD = {
+        Type     = "Dropdown";
+        Values   = info.Values or {};
+        Value    = info.Multi and {} or nil;
+        Multi    = info.Multi or false;
+        AllowNull = info.AllowNull or false;
+        Callback = info.Callback or function() end;
+    }
+    local sw, swS = Box(Library.BackgroundColor, UDim2.fromOffset(50, 16), lbl)
+    sw.BorderSizePixel = 0
+    Library:AddToRegistry(sw, { BackgroundColor3 = "BackgroundColor" })
+    Library:AddToRegistry(swS, { Color = "OutlineColor" })
+    DD.DisplayFrame = sw
+    local sl = Library:CreateLabel({
+        Size = UDim2.fromScale(1,1); TextSize = 11;
+        Text = info.Default or (info.Values and info.Values[1]) or "";
+        ZIndex = 8; Parent = sw
+    })
+    function DD:SetValue(v)
+        DD.Value = v
+        sl.Text = type(v) == "string" and v or tostring(v)
+        Library:SafeCallback(DD.Callback, v)
+        Library:SafeCallback(DD.Changed, v)
+    end
+    function DD:SetValues(vals)
+        DD.Values = vals
+        if not DD.Multi then DD.Value = vals[1] end
+        sl.Text = DD.Value and tostring(DD.Value) or ""
+    end
+    function DD:OnChanged(f) DD.Changed = f end
+    DD.Default = DD.Value
+    table.insert(parent.Addons or {}, DD)
+    Options[idx] = DD
+    return parent  
 end
 BaseFuncs.AddColorPicker = BaseAddons.AddColorPicker
 BaseFuncs.AddKeyPicker   = BaseAddons.AddKeyPicker
+BaseFuncs.AddDropdown    = BaseAddons.AddDropdown  
 function Library:CreateWindow(config)
     config = config or {}
-    local title     = config.Title or "Testing"
+    local title     = config.Title or "UILibrary"
     local subtitle  = config.Subtitle
-    local keySys    = config.KeySystem or {}
     local toggleKey = config.ToggleKeybind
     local autoShow  = config.AutoShow ~= false
     local center    = config.Center   ~= false
+    if config.Theme then
+        for k, v in pairs(config.Theme) do
+            if Library[k] ~= nil then Library[k] = v end
+        end
+    end
+    Library.AccentColorDark = Library:GetDarkerColor(Library.AccentColor)
     local vp   = workspace.CurrentCamera.ViewportSize
-    local W    = config.Width  or math.clamp(vp.X * (Library.IsMobile and 0.95 or 0.75), 400, 700)
-    local H    = config.Height or math.clamp(vp.Y * (Library.IsMobile and 0.90 or 0.65), 280, 700)
+    local W    = config.Size and config.Size.X.Offset
+              or config.Width
+              or math.clamp(vp.X * (Library.IsMobile and 0.95 or 0.75), 400, 700)
+    local H    = config.Size and config.Size.Y.Offset
+              or config.Height
+              or math.clamp(vp.Y * (Library.IsMobile and 0.90 or 0.65), 280, 700)
     local HDR  = Library.IsMobile and 54 or 60    
     local PAD  = 12
     local FS   = Library.IsMobile and 13 or 14
-    if keySys.Enabled then
-        local GW = math.clamp(vp.X * 0.70, 340, W)
-        local GH = math.clamp(vp.Y * 0.50, 220, H)
-        local gGui = Instance.new("ScreenGui")
-        gGui.Name = "Testing_Gate"; gGui.ZIndexBehavior = Enum.ZIndexBehavior.Global
-        gGui.DisplayOrder = 1000;   gGui.ResetOnSpawn   = false
-        pcall(ProtGui, gGui)
-        do
-            local ok = pcall(function() gGui.Parent = GetHUI() end)
-            if not ok or not gGui.Parent then gGui.Parent = LP:WaitForChild("PlayerGui", 60) end
-        end
-        local gWrap = Library:Create("Frame", {
-            AnchorPoint=Vector2.new(0.5,0.5); BackgroundTransparency=1;
-            Position=UDim2.fromScale(0.5,0.5); Size=UDim2.fromOffset(GW,GH); Parent=gGui
-        })
-        local gRoot = Library:Create("Frame", {
-            BackgroundColor3=Library.BackgroundColor; BorderSizePixel=0;
-            Size=UDim2.fromOffset(0,0); ClipsDescendants=true; Parent=gWrap
-        })
-        Corner(6, gRoot)
-        local grs = Stroke(Library.OutlineColor, 1, gRoot)
-        Library:AddToRegistry(gRoot, { BackgroundColor3 = "BackgroundColor" })
-        Library:AddToRegistry(grs,   { Color = "OutlineColor" })
-        local gHdr = Library:Create("Frame", {
-            BackgroundColor3=Library.MainColor; BorderSizePixel=0;
-            Size=UDim2.new(1,0,0,HDR); ZIndex=2; Parent=gRoot
-        })
-        Corner(6, gHdr)
-        Library:Create("Frame", {   
-            BackgroundColor3=Library.MainColor; BorderSizePixel=0;
-            Position=UDim2.new(0,0,1,-6); Size=UDim2.new(1,0,0,6); ZIndex=2; Parent=gHdr
-        })
-        Library:AddToRegistry(gHdr, { BackgroundColor3 = "MainColor" })
-        Library:MakeDraggable(gWrap, gHdr, HDR)
-        local gTitle = Library:CreateLabel({
-            Position=UDim2.fromOffset(PAD,4); Size=UDim2.new(1,-50,0,HDR-8);
-            TextSize=Library.IsMobile and 18 or 24; Text=title;
-            TextXAlignment=Enum.TextXAlignment.Left; ZIndex=3; Parent=gHdr
-        })
-        gTitle.Font = Enum.Font.GothamBold
-        gTitle.TextColor3 = Library.AccentFontColor
-        Library:AddToRegistry(gTitle, { TextColor3 = "AccentFontColor" })
-        local gSub = Library:CreateLabel({
-            Position=UDim2.fromOffset(PAD,8); Size=UDim2.new(1,-50,0,14);
-            TextSize=9; Text=subtitle or keySys.Subtitle or "• KEY SYSTEM •";
-            TextXAlignment=Enum.TextXAlignment.Left; ZIndex=3; Parent=gHdr
-        })
-        Library:AddToRegistry(gSub, { TextColor3 = "DimColor" })
-        local gClose = Library:Create("TextButton", {
-            AnchorPoint=Vector2.new(1,0.5);
-            AutoButtonColor=false; BackgroundColor3=Library.SecondaryColor;
-            BorderSizePixel=0; Font=Library.Font; TextSize=18;
-            Text="×"; TextColor3=Library.DimColor;
-            Position=UDim2.new(1,-(PAD+28),0.5,-14);
-            Size=UDim2.fromOffset(28,28); ZIndex=4; Parent=gHdr
-        })
-        Corner(4, gClose)
-        Library:AddToRegistry(gClose, { BackgroundColor3="SecondaryColor"; TextColor3="DimColor" })
-        gClose.MouseEnter:Connect(function()
-            Tw(gClose, TW_FAST, { BackgroundColor3=Library.SecondaryHoverColor; TextColor3=Library.ErrorColor })
-        end)
-        gClose.MouseLeave:Connect(function()
-            Tw(gClose, TW_FAST, { BackgroundColor3=Library.SecondaryColor; TextColor3=Library.DimColor })
-        end)
-        gClose.MouseButton1Click:Connect(function() gGui:Destroy() end)
-        local gScroll = Library:Create("ScrollingFrame", {
-            BackgroundTransparency=1; BorderSizePixel=0;
-            Position=UDim2.fromOffset(PAD, HDR+PAD);
-            Size=UDim2.new(1,-PAD*2, 1,-HDR-PAD*2);
-            CanvasSize=UDim2.fromOffset(0,0);
-            ScrollBarThickness=4; ScrollBarImageColor3=Library.OutlineColor;
-            ZIndex=2; Parent=gRoot
-        })
-        Library:AddToRegistry(gScroll, { ScrollBarImageColor3 = "OutlineColor" })
-        Pad(5,10,2,2, gScroll)
-        local gLayout = List(nil, Enum.HorizontalAlignment.Center, 10, gScroll)
-        local statusLbl = Library:CreateLabel({
-            Size=UDim2.new(1,-10,0,20); TextSize=FS;
-            Text="Enter your key to continue";
-            TextXAlignment=Enum.TextXAlignment.Center;
-            LayoutOrder=1; ZIndex=3; Parent=gScroll
-        })
-        local kCont, kContS = Box(Library.MainColor, UDim2.new(1,-10,0,40), gScroll)
-        kCont.LayoutOrder = 2
-        Library:AddToRegistry(kCont,  { BackgroundColor3 = "MainColor" })
-        Library:AddToRegistry(kContS, { Color = "OutlineColor" })
-        local kTB = Library:Create("TextBox", {
-            BackgroundTransparency=1;
-            PlaceholderText="Paste your key here..."; PlaceholderColor3=Library.DimColor;
-            Text=""; TextColor3=Library.FontColor; TextSize=FS-1; Font=Library.Font;
-            TextXAlignment=Enum.TextXAlignment.Left; ClearTextOnFocus=false;
-            Size=UDim2.new(1,-20,1,0); Position=UDim2.fromOffset(10,0); ZIndex=4; Parent=kCont
-        })
-        Library:AddToRegistry(kTB, { TextColor3="FontColor"; PlaceholderColor3="DimColor" })
-        local function gNotify(text, color)
-            statusLbl.Text             = text
-            statusLbl.TextColor3       = color or Library.FontColor
-            statusLbl.TextTransparency = 0.6
-            Tw(statusLbl, TW_MED, { TextTransparency = 0 })
-        end
-        local validating = false
-        local function doValidate()
-            if validating then return end
-            local key = kTB.Text:gsub("%s","")
-            if key == "" then gNotify("Please enter a key.", Library.ErrorColor); return end
-            if keySys.Validate then
-                validating = true
-                gNotify("Validating...", Library.AccentFontColor)
-                task.spawn(function()
-                    local ok, msg = pcall(keySys.Validate, key)
-                    validating = false
-                    if ok and msg ~= false then
-                        gNotify((type(msg)=="string" and msg) or "✓ Key valid! Loading...", Library.SuccessColor)
-                        task.wait(0.8); gGui:Destroy()
-                        Library:SafeCallback(keySys.OnValid, key)
-                    else
-                        gNotify((type(msg)=="string" and msg) or "Invalid or expired key.", Library.ErrorColor)
-                    end
-                end)
-            else
-                gGui:Destroy()
-                Library:SafeCallback(keySys.OnValid, key)
-            end
-        end
-        kTB.FocusLost:Connect(function(enter)
-            if enter and kTB.Text ~= "" then doValidate() end
-        end)
-        local bCont = Library:Create("Frame", {
-            BackgroundTransparency=1; AutomaticSize=Enum.AutomaticSize.Y;
-            Size=UDim2.new(1,-10,0,0); LayoutOrder=3; Parent=gScroll
-        })
-        List(nil, Enum.HorizontalAlignment.Center, 8, bCont)
-        local function MakeGBtn(text, color, fn)
-            local btn = Library:Create("TextButton", {
-                AutoButtonColor=false; BackgroundColor3=Library.SecondaryColor;
-                BorderSizePixel=0; Font=Library.Font; TextSize=FS;
-                Text=text; TextColor3=color or Library.FontColor;
-                Size=UDim2.new(1,0,0,28); ZIndex=3; Parent=bCont
-            })
-            Corner(4, btn)
-            local bs = Stroke(Library.OutlineColor, 1, btn)
-            btn.MouseEnter:Connect(function()
-                Tw(btn, TW_FAST, { BackgroundColor3=Library.SecondaryHoverColor })
-                Tw(bs,  TW_FAST, { Color=Library.AccentColor })
-            end)
-            btn.MouseLeave:Connect(function()
-                Tw(btn, TW_FAST, { BackgroundColor3=Library.SecondaryColor })
-                Tw(bs,  TW_FAST, { Color=Library.OutlineColor })
-            end)
-            btn.MouseButton1Click:Connect(fn)
-        end
-        MakeGBtn("Check Key", Library.AccentFontColor, doValidate)
-        for _, link in ipairs(keySys.Links or keySys.GetLinks or {}) do
-            MakeGBtn(link.Text or "Get Key", link.Color or Library.FontColor, function()
-                if _setclip and link.URL then
-                    _setclip(link.URL)
-                    gNotify("✓ "..(link.Text or "Link").." copied to clipboard!", Library.SuccessColor)
-                end
-            end)
-        end
-        if keySys.DiscordURL then
-            MakeGBtn("Discord Support", Library.FontColor, function()
-                if _setclip then
-                    _setclip(keySys.DiscordURL)
-                    gNotify("✓ Discord link copied!", Library.SuccessColor)
-                end
-            end)
-        end
-        gLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-            gScroll.CanvasSize = UDim2.fromOffset(0, gLayout.AbsoluteContentSize.Y + 10)
-        end)
-        Tw(gRoot, TW_BACK, { Size = UDim2.fromOffset(GW, GH) })
-    end 
-    local Window = { Tabs = {}; State = "Open" }
+    local Window = { Tabs = {}; State = "Open"; Title = title }
     Library.Window = Window
     local TAB_H     = 26
     local CONTENT_Y = HDR + 4 + TAB_H + 4
@@ -1735,10 +1668,8 @@ function Library:CreateWindow(config)
         Position               = center and UDim2.fromScale(0.5,0.5)
                                          or (config.Position or UDim2.fromScale(0.5,0.5));
         Size                   = UDim2.fromOffset(W, H);
-        Visible                = not keySys.Enabled;
         ZIndex                 = 1;
         Parent                 = ScreenGui;
-        Name                   = "YuriWindow";
     })
     local outer = Library:Create("Frame", {
         BackgroundColor3 = Library.BackgroundColor;
@@ -2139,12 +2070,12 @@ function Library:CreateWindow(config)
         Tw(sc, TW_FAST, { Scale=1 })
         return Dialog
     end
-    if autoShow and not keySys.Enabled then
+    if autoShow then
         Tw(outer, TW_BACK, { Size = UDim2.fromOffset(W, H) })
     end
     return Window
 end
-getgenv_().Testing  = Library
-getgenv_().Toggles  = Toggles
-getgenv_().Options  = Options
+getgenv_().UILibrary  = Library
+getgenv_().Toggles    = Toggles
+getgenv_().Options    = Options
 return Library
