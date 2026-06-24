@@ -910,9 +910,9 @@ function BaseFuncs:AddDropdown(idx, info)
         if Dropdown.Multi then
             local p = {}
             for v, on in pairs(Dropdown.Value) do if on then table.insert(p, tostring(v)) end end
-            selLbl.Text = #p > 0 and table.concat(p, ", ") or "
+            selLbl.Text = #p > 0 and table.concat(p, ", ") or "--"
         else
-            selLbl.Text = Dropdown.Value and tostring(Dropdown.Value) or "
+            selLbl.Text = Dropdown.Value and tostring(Dropdown.Value) or "--"
         end
     end
     function Dropdown:BuildList()
