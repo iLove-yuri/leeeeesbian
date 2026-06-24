@@ -871,7 +871,7 @@ function BaseFuncs:AddDropdown(idx, info)
     Library:AddToRegistry(ds,   { Color = "OutlineColor" })
     local selLbl = Library:CreateLabel({
         Position=UDim2.fromOffset(7,0); Size=UDim2.new(1,-24,1,0);
-        TextSize=13; Text="
+        TextSize=13; Text="--";
         TextXAlignment=Enum.TextXAlignment.Left;
         TextTruncate=Enum.TextTruncate.AtEnd; ZIndex=6; Parent=dbox
     })
