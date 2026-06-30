@@ -30,7 +30,7 @@ local UserInputService = Services.UserInputService
 local Workspace = Services.Workspace
 local plr = Players.LocalPlayer
 local list = {
-	{gid = {"9866884975"}, id = "1b1251046fd4407c1d8f7e90cb337aeb", keyless = false}, -- sail boat
+	{gid = {"9866884975", "1831550657", }, id = "1b1251046fd4407c1d8f7e90cb337aeb", keyless = false}, -- sail boat, cos
 	{gid = {"7359962123"}, id = "f3cdf28dc70b1249611f4d9e92b15c4e", keyless = false}, -- aac
 	{gid = {"9826885587"}, id = "245e817ec11f0591898dbef698f5a598", keyless = false}, -- pokemon
 	{gid = {"9219838330"}, id = "d310529bba1c9560607c620cc8664b89", keyless = false}, -- pml
