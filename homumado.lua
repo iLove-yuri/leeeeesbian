@@ -22,12 +22,10 @@ Services = setmetatable({}, {
 })
 
 local CoreGui = Services.CoreGui
-local HttpService = Services.HttpService
-local Lighting = Services.Lighting
 local Players = Services.Players
 local TweenService = Services.TweenService
 local UserInputService = Services.UserInputService
-local Workspace = Services.Workspace
+local TextService = Services.TextService
 local plr = Players.LocalPlayer
 local list = {
 	{gid = {"9866884975", "1831550657", }, id = "1b1251046fd4407c1d8f7e90cb337aeb", keyless = false}, -- sail boat, cos
