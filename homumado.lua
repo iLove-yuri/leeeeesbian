@@ -23,6 +23,7 @@ Services = setmetatable({}, {
 
 local CoreGui = Services.CoreGui
 local HttpService = Services.HttpService
+local TextService = Services.TextService
 local Lighting = Services.Lighting
 local Players = Services.Players
 local TweenService = Services.TweenService
