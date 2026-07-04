@@ -34,13 +34,12 @@ local list = {
 	{gid = {"9866884975", "1831550657", }, id = "1b1251046fd4407c1d8f7e90cb337aeb", keyless = false}, -- sail boat, cos
 	{gid = {"7359962123"}, id = "f3cdf28dc70b1249611f4d9e92b15c4e", keyless = false}, -- aac
 	{gid = {"9826885587", "10277874067"}, id = "245e817ec11f0591898dbef698f5a598", keyless = false}, -- pokemon, gambling
-	{gid = {"9219838330", "10334731049"}, id = "d310529bba1c9560607c620cc8664b89", keyless = false}, -- pml, spm
+	{gid = {"9219838330", "10334731049", "6749892429", }, id = "d310529bba1c9560607c620cc8664b89", keyless = false}, -- pml, spm, eve
 	{gid = {"10148749921", "8939200161", "5691634893", "10002454638",}, id = "d8e39dd7c8bfa5015a2c48dc361d656f", keyless = false}, -- aniho, portal keeper, overdrive, vut
 	{gid = {"10111742174", "9584946743"}, id = "74b4e982b9b980d106fc43e8ca53f248", keyless = false}, -- 🧱, ii
 	{gid = {"7037673488", "10040426659", "8161187430"}, id = "3781eb1fc444bef291a013c0e69f7c2a", keyless = false}, -- skeleton, ti, qua
 	{gid = {"9965411707"}, id = "79c4f538aba5d702cd1b7795737a36d1", keyless = false}, -- ni
 }
-local executor_name = getexecutorname():match("^%s*(.-)%s*$")
 local gid = tostring(game.GameId)
 local game_config
 for _, entry in ipairs(list) do
