@@ -37,7 +37,7 @@ local list = {
 	{gid = {"9219838330", "10334731049", "6749892429", "7990186056" }, id = "d310529bba1c9560607c620cc8664b89", keyless = false}, -- pml, spm, eve, tower
 	{gid = {"10148749921", "8939200161", "5691634893", "10002454638",}, id = "d8e39dd7c8bfa5015a2c48dc361d656f", keyless = false}, -- aniho, portal keeper, overdrive, vut
 	{gid = {"10111742174", "9584946743", "10053091404"}, id = "74b4e982b9b980d106fc43e8ca53f248", keyless = false}, -- 🧱, ii, pf
-	{gid = {"7037673488", "10040426659", "8161187430"}, id = "3781eb1fc444bef291a013c0e69f7c2a", keyless = false}, -- skeleton, ti, qua
+	{gid = {"7037673488", "10040426659", "8161187430", "10255492538"}, id = "3781eb1fc444bef291a013c0e69f7c2a", keyless = false}, -- skeleton, ti, qua,li
 	{gid = {"9965411707"}, id = "79c4f538aba5d702cd1b7795737a36d1", keyless = false}, -- ni
 }
 local gid = tostring(game.GameId)
