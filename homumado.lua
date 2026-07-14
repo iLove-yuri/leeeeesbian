@@ -35,7 +35,7 @@ local list = {
 	{gid = {"7359962123"}, id = "f3cdf28dc70b1249611f4d9e92b15c4e", keyless = false}, -- aac
 	{gid = {"9826885587", "10277874067", "8978470369", "9870850309"}, id = "245e817ec11f0591898dbef698f5a598", keyless = false}, -- pokemon, gambling, castle, bubble
 	{gid = {"9219838330", "10334731049", "6749892429", "7990186056" }, id = "d310529bba1c9560607c620cc8664b89", keyless = false}, -- pml, spm, eve, tower
-	{gid = {"9980077437", "5691634893", "10002454638", "10384841418", "10231871497"}, id = "d8e39dd7c8bfa5015a2c48dc361d656f", keyless = false}, -- rng, overdrive, vut, squishy, drill
+	{gid = {"9980077437", "5691634893", "10002454638", "10384841418", "10231871497", "10253235584"}, id = "d8e39dd7c8bfa5015a2c48dc361d656f", keyless = false}, -- rng, overdrive, vut, squishy, drill, base
 	{gid = {"10111742174", "9584946743", "10053091404"}, id = "74b4e982b9b980d106fc43e8ca53f248", keyless = false}, -- 🧱, ii, pf
 	{gid = {"7037673488", "10040426659", "8161187430", "10255492538"}, id = "3781eb1fc444bef291a013c0e69f7c2a", keyless = false}, -- skeleton, ti, qua,li
 	{gid = {"9965411707", "8500639466","10273193868", "9734147105", "8079278639"}, id = "79c4f538aba5d702cd1b7795737a36d1", keyless = false}, -- ni, cu, ma, s, u
