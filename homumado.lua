@@ -33,7 +33,7 @@ local plr = Players.LocalPlayer
 local list = {
 	{gid = {"1831550657", "10337069275", "10161576677", "3512256796", "10323871857"}, id = "1b1251046fd4407c1d8f7e90cb337aeb", keyless = false}, -- cos, ice tycoon, flag, minor, zenith
 	{gid = {"7359962123"}, id = "f3cdf28dc70b1249611f4d9e92b15c4e", keyless = false}, -- aac
-	{gid = {"10277874067", "8978470369", "9870850309", "10258087043", "7613921865"}, id = "245e817ec11f0591898dbef698f5a598", keyless = false}, -- gambling, castle, bubble, r, ae
+	{gid = {"10277874067", "8978470369", "9870850309", "10258087043", "7613921865","3913007563"}, id = "245e817ec11f0591898dbef698f5a598", keyless = false}, -- gambling, castle, bubble, r, ae,
 	{gid = {"9219838330", "10334731049", "6749892429", "7990186056", "7300616172", "10393620082"}, id = "d310529bba1c9560607c620cc8664b89", keyless = false}, -- pml, spm, eve, tower, purge, asmr
 	{gid = {"9980077437", "5691634893", "10002454638", "10384841418", "10231871497", "10253235584", "10272975313"}, id = "d8e39dd7c8bfa5015a2c48dc361d656f", keyless = false}, -- rng, overdrive, vut, squishy, drill, base, dino
 	{gid = {"10111742174", "9584946743", "10053091404", "10368005384", "9826885587"}, id = "74b4e982b9b980d106fc43e8ca53f248", keyless = false}, -- 🧱, ii, pf, sandwich, evo
