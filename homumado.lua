@@ -1,22 +1,22 @@
 repeat task.wait() until game:IsLoaded()
 repeat task.wait() until game.GameId ~= 0
-function missing(t, f, fallback)
-	if type(f) == t then return f end
-	return fallback
+function missing(T, F, Fb)
+	if type(F) == T then return F end
+	return Fb
 end
 cloneref = missing("function", cloneref, function(...) return ... end)
 getgc = missing("function", getgc or get_gc_objects)
 getconnections = missing("function", getconnections or get_signal_cons)
 Services = setmetatable({}, {
-	__index = function(self, name)
-		local success, cache = pcall(function()
-			return cloneref(game:GetService(name))
+	__index = function(Slf, N)
+		local Ok, Cch = pcall(function()
+			return cloneref(game:GetService(N))
 		end)
-		if success then
-			rawset(self, name, cache)
-			return cache
+		if Ok then
+			rawset(Slf, N, Cch)
+			return Cch
 		else
-			error("Invalid Service: " .. tostring(name))
+			error("Invalid Service: " .. tostring(N))
 		end
 	end
 })
@@ -29,8 +29,8 @@ local Players = Services.Players
 local TweenService = Services.TweenService
 local UserInputService = Services.UserInputService
 local Workspace = Services.Workspace
-local plr = Players.LocalPlayer
-local list = {
+local Plr = Players.LocalPlayer
+local Lst = {
 	{gid = {"1831550657", "10337069275", "10161576677", "3512256796", "10323871857", "10454554751"}, id = "1b1251046fd4407c1d8f7e90cb337aeb", keyless = false}, -- cos, ice tycoon, flag, minor, zenith, unbox 
 	{gid = {"7359962123"}, id = "f3cdf28dc70b1249611f4d9e92b15c4e", keyless = false}, -- aac
 	{gid = {"10277874067", "8978470369", "9870850309", "10258087043", "7613921865","3913007563", "10439925935"}, id = "245e817ec11f0591898dbef698f5a598", keyless = false}, -- gambling, castle, bubble, r, ae, tbb, balllslslsl
@@ -40,28 +40,28 @@ local list = {
 	{gid = {"7037673488", "10040426659", "8161187430", "10255492538", "10356701370","8191321227", "10347437155" }, id = "3781eb1fc444bef291a013c0e69f7c2a", keyless = false}, -- skeleton, ti, qua,li, stealbase, overture, bad
 	{gid = {"9965411707", "8500639466","10273193868", "9734147105", "8079278639", "9979308605", "7934320560"}, id = "79c4f538aba5d702cd1b7795737a36d1", keyless = false}, -- ni, cu, ma, s, u, animeg, 5n
 }
-local gid = tostring(game.GameId)
-local game_config
-for _, entry in ipairs(list) do
-	for _, id in ipairs(entry.gid) do
-		if id == gid then
-			game_config = entry
+local Gid = tostring(game.GameId)
+local GameCfg
+for _, Entry in ipairs(Lst) do
+	for _, Id in ipairs(Entry.gid) do
+		if Id == Gid then
+			GameCfg = Entry
 			break
 		end
 	end
-	if game_config then break end
+	if GameCfg then break end
 end
-if not game_config then
-	plr:Kick("This game is not supported.")
+if not GameCfg then
+	Plr:Kick("This game is not supported.")
 	return
 end
-local script_id = game_config.id
-local is_key_less = game_config.keyless
+local ScriptId = GameCfg.id
+local IsKeyLess = GameCfg.keyless
 
 if CoreGui:FindFirstChild("iLoveyuri") then
     CoreGui.iLoveyuri:Destroy()
 end
-local config = {
+local Cfg = {
     KeyFile = "yuri/savedkey.txt",
     Title = "Yuri",
     AAC = "https://ads.luarmor.net/get_key?for=AAC-iugtlcjdSYXB",
@@ -69,64 +69,64 @@ local config = {
     WorkinkURL = "https://ads.luarmor.net/get_key?for=Lesbian-pCiCBJScuyDv",
     DiscordURL = "https://discord.gg/VgsVeUxBY",
 }
-local luarmor_api = loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
-luarmor_api.script_id = script_id
-if is_key_less then
+local LuarmorApi = loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
+LuarmorApi.script_id = ScriptId
+if IsKeyLess then
     pcall(function()
-        luarmor_api.load_script()
+        LuarmorApi.load_script()
     end)
     return
 end
 
-if isfile(config.KeyFile) then
-    local savedKey = readfile(config.KeyFile):gsub("%s", "")
-    local success, result = pcall(function()
-        return luarmor_api.check_key(savedKey)
+if isfile(Cfg.KeyFile) then
+    local SvdKey = readfile(Cfg.KeyFile):gsub("%s", "")
+    local Ok, Rslt = pcall(function()
+        return LuarmorApi.check_key(SvdKey)
     end)
-    if success and result.code == "KEY_VALID" then
-        script_key = savedKey
+    if Ok and Rslt.code == "KEY_VALID" then
+        script_key = SvdKey
         pcall(function()
-            luarmor_api.load_script()
+            LuarmorApi.load_script()
         end)
         return
-    elseif success and result.code == "KEY_HWID_LOCKED" then
-        delfile(config.KeyFile)
-        plr:Kick("Key is locked to a different HWID. Reset your HWID and re-run.")
+    elseif Ok and Rslt.code == "KEY_HWID_LOCKED" then
+        delfile(Cfg.KeyFile)
+        Plr:Kick("Key is locked to a different HWID. Reset your HWID and re-run.")
         return
     else
-        delfile(config.KeyFile)
-        plr:Kick("Saved key is invalid or expired. Re-run the script to get a new one.")
+        delfile(Cfg.KeyFile)
+        Plr:Kick("Saved key is invalid or expired. Re-run the script to get a new one.")
         return
     end
 end
 local Yuri = loadstring(game:HttpGet("https://raw.githubusercontent.com/iLove-yuri/debug/refs/heads/main/homutop.lua"))()
-local function validateKey(key, notify, screenGui)
-	local cleanedKey = key:gsub("%s", "")
-	if #cleanedKey ~= 32 then
-		notify("Invalid key format (must be 32 characters)", Color3.fromRGB(255, 60, 60))
+local function ValidateKey(Key, Ntfy, Sg)
+	local ClnKey = Key:gsub("%s", "")
+	if #ClnKey ~= 32 then
+		Ntfy("Invalid key format (must be 32 characters)", Color3.fromRGB(255, 60, 60))
 		return false
 	end
-	notify("Validating key...", Color3.fromRGB(220, 220, 220))
-	local success, result = pcall(function()
-		return luarmor_api.check_key(cleanedKey)
+	Ntfy("Validating key...", Color3.fromRGB(220, 220, 220))
+	local Ok, Rslt = pcall(function()
+		return LuarmorApi.check_key(ClnKey)
 	end)
-	if not success then
-		notify("Network error. Check your connection.", Color3.fromRGB(255, 60, 60))
+	if not Ok then
+		Ntfy("Network error. Check your connection.", Color3.fromRGB(255, 60, 60))
 		return false
 	end
-	if result.code == "KEY_VALID" then
+	if Rslt.code == "KEY_VALID" then
 		if not isfolder("yuri") then
 			makefolder("yuri")
 		end
-		writefile(config.KeyFile, cleanedKey)
-		script_key = cleanedKey
-		screenGui:Destroy()
+		writefile(Cfg.KeyFile, ClnKey)
+		script_key = ClnKey
+		Sg:Destroy()
 		pcall(function()
-			luarmor_api.load_script()
+			LuarmorApi.load_script()
 		end)
 		return true
 	else
-		notify("Invalid or expired key", Color3.fromRGB(255, 60, 60))
+		Ntfy("Invalid or expired key", Color3.fromRGB(255, 60, 60))
 		return false
 	end
 end
@@ -135,9 +135,9 @@ Yuri.new({
     UserInputService = UserInputService,
     CoreGui = CoreGui,
     TextService = TextService,
-    config = config,
+    config = Cfg,
     scriptKey = script_key,
-    onCheckKey = validateKey,
+    onCheckKey = ValidateKey,
 })
 queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
 Players.LocalPlayer.OnTeleport:Connect(function(State)
