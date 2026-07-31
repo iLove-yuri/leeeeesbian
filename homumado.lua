@@ -38,7 +38,7 @@ local Lst = {
 	{gid = {"9980077437", "5691634893", "10002454638", "10384841418", "10231871497", "10253235584", "10272975313", "10318907060", "10099615394"}, id = "d8e39dd7c8bfa5015a2c48dc361d656f", keyless = false}, -- rng, overdrive, vut, squishy, drill, base, dino, but, ut
 	{gid = {"10111742174", "9584946743", "10053091404", "10368005384", "9826885587", "10399562127"}, id = "74b4e982b9b980d106fc43e8ca53f248", keyless = false}, -- 🧱, ii, pf, sandwich, evo, blocklll
 	{gid = {"7037673488", "10040426659", "8161187430", "10255492538", "10356701370","8191321227", "10347437155" }, id = "3781eb1fc444bef291a013c0e69f7c2a", keyless = false}, -- skeleton, ti, qua,li, stealbase, overture, bad
-	{gid = {"9965411707", "8500639466","10273193868", "9734147105", "8079278639", "9979308605", "7934320560"}, id = "79c4f538aba5d702cd1b7795737a36d1", keyless = false}, -- ni, cu, ma, s, u, animeg, 5n
+	{gid = {"9965411707", "8500639466","10273193868", "9734147105", "8079278639", "9979308605", "7934320560", "8939200161"}, id = "79c4f538aba5d702cd1b7795737a36d1", keyless = false}, -- ni, cu, ma, s, u, animeg, 5n, pk
 }
 local Gid = tostring(game.GameId)
 local GameCfg
