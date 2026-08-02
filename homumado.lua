@@ -5,8 +5,6 @@ function missing(T, F, Fb)
 	return Fb
 end
 cloneref = missing("function", cloneref, function(...) return ... end)
-getgc = missing("function", getgc or get_gc_objects)
-getconnections = missing("function", getconnections or get_signal_cons)
 Services = setmetatable({}, {
 	__index = function(Slf, N)
 		local Ok, Cch = pcall(function()
@@ -137,9 +135,8 @@ Yuri.new({
     onCheckKey = ValidateKey,
 })
 queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
-Players.LocalPlayer.OnTeleport:Connect(function(State)
+Plr.OnTeleport:Connect(function(State)
 	if _G.autoExec and queueteleport then
-		TeleportCheck = true
 		queueteleport([[
 			loadstring(game:HttpGet('https://raw.githubusercontent.com/iLove-yuri/leeeeesbian/refs/heads/main/homumado.lua'))()
 		]])
