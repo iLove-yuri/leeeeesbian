@@ -22,13 +22,10 @@ Services = setmetatable({}, {
 })
 
 local CoreGui = Services.CoreGui
-local HttpService = Services.HttpService
 local TextService = Services.TextService
-local Lighting = Services.Lighting
 local Players = Services.Players
 local TweenService = Services.TweenService
 local UserInputService = Services.UserInputService
-local Workspace = Services.Workspace
 local Plr = Players.LocalPlayer
 local Lst = {
 	{gid = {"1831550657", "10337069275", "10161576677", "3512256796", "10323871857", "10454554751", "6324644175"}, id = "1b1251046fd4407c1d8f7e90cb337aeb", keyless = false}, -- cos, ice tycoon, flag, minor, zenith, unbox 
