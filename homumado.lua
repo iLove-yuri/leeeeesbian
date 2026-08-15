@@ -37,6 +37,7 @@ local Lst = {
 }
 local Gid = tostring(game.GameId)
 local GameCfg
+local Exec = (identifyexecutor and identifyexecutor() or "Unknown"):lower()
 for _, Entry in ipairs(Lst) do
 	for _, Id in ipairs(Entry.gid) do
 		if Id == Gid then
@@ -50,9 +51,11 @@ if not GameCfg then
 	Plr:Kick("This game is not supported.")
 	return
 end
+if Exec == "xeno" or Exec == "solara" then
+    Plr:Kick("Unsupported executor.")
+end
 local ScriptId = GameCfg.id
 local IsKeyLess = GameCfg.keyless
-
 if CoreGui:FindFirstChild("iLoveyuri") then
     CoreGui.iLoveyuri:Destroy()
 end
