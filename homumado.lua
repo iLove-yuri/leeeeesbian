@@ -51,9 +51,6 @@ if not GameCfg then
 	Plr:Kick("This game is not supported.")
 	return
 end
-if Exec == "xeno" or Exec == "solara" then
-    Plr:Kick("Unsupported executor.")
-end
 local ScriptId = GameCfg.id
 local IsKeyLess = GameCfg.keyless
 if CoreGui:FindFirstChild("iLoveyuri") then
