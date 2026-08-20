@@ -62,7 +62,7 @@ local Cfg = {
     AAC = "https://ads.luarmor.net/get_key?for=AAC-iugtlcjdSYXB",
     LinkvertiseURL = "https://ads.luarmor.net/get_key?for=Yuri-ODPllbErcWEJ",
     WorkinkURL = "https://ads.luarmor.net/get_key?for=Lesbian-pCiCBJScuyDv",
-    DiscordURL = "https://discord.gg/VgsVeUxBY",
+    DiscordURL = "https://discord.gg/6pCsSbVd3E",
 }
 local LuarmorApi = loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
 LuarmorApi.script_id = ScriptId
