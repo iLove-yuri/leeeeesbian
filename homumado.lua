@@ -65,6 +65,7 @@ local Cfg = {
     DiscordURL = "https://discord.gg/6pCsSbVd3E",
 }
 local LuarmorApi = loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
+local Yuri = loadstring(game:HttpGet("https://raw.githubusercontent.com/iLove-yuri/debug/refs/heads/main/homutop.lua"))()
 LuarmorApi.script_id = ScriptId
 if IsKeyLess then
     pcall(function()
@@ -94,7 +95,6 @@ if isfile(Cfg.KeyFile) then
         return
     end
 end
-local Yuri = loadstring(game:HttpGet("https://raw.githubusercontent.com/iLove-yuri/debug/refs/heads/main/homutop.lua"))()
 local function ValidateKey(Key, Ntfy, Sg)
 	local ClnKey = Key:gsub("%s", "")
 	if #ClnKey ~= 32 then
