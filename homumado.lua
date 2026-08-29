@@ -59,7 +59,7 @@ end
 local Cfg = {
     KeyFile = "yuri/savedkey.txt",
     Title = "Yuri",
-    AAC = "https://ads.luarmor.net/get_key?for=AAC-iugtlcjdSYXB",
+    AAC = "https://ads.luarmor.net/get_key?for=AAC-mGGYZfajqulV",
     LinkvertiseURL = "https://ads.luarmor.net/get_key?for=Yuri-ODPllbErcWEJ",
     WorkinkURL = "https://ads.luarmor.net/get_key?for=Lesbian-pCiCBJScuyDv",
     DiscordURL = "https://discord.gg/6pCsSbVd3E",
