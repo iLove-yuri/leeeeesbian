@@ -63,9 +63,9 @@ end
 local Cfg = {
     KeyFile = "yuri/savedkey.txt",
     Title = "Yuri",
-    AAC = "https://ads.luarmor.net/get_key?for=AAC-mGGYZfajqulV",
+    AAC = "https://ads.luarmor.net/get_key?for=AAC-bLTGMmZfIQlm",
     LinkvertiseURL = "https://ads.luarmor.net/get_key?for=Yuri-ODPllbErcWEJ",
-    WorkinkURL = "https://ads.luarmor.net/get_key?for=Lesbian-pCiCBJScuyDv",
+    LootlabURL = "https://ads.luarmor.net/get_key?for=Lesbian-IpYoiiAdSJVi",
     DiscordURL = "https://discord.gg/6pCsSbVd3E",
 }
 local LuarmorApi = loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
