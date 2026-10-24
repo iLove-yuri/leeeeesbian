@@ -51,46 +51,46 @@ if not GameCfg then
 	return
 end
 if CoreGui:FindFirstChild("iLoveyuri") then
-    CoreGui.iLoveyuri:Destroy()
+	CoreGui.iLoveyuri:Destroy()
 end
 local Cfg = {
-    KeyFile = "yuri/savedkey.txt",
-    Title = "Yuri",
-    AAC = "https://ads.luarmor.net/get_key?for=AAC-bLTGMmZfIQlm",
-    LinkvertiseURL = "https://ads.luarmor.net/get_key?for=Yuri-ODPllbErcWEJ",
-    LootlabsURL = "https://ads.luarmor.net/get_key?for=Lesbian-IpYoiiAdSJVi",
-    DiscordURL = "https://discord.gg/6pCsSbVd3E",
+	KeyFile = "yuri/savedkey.txt",
+	Title = "Yuri",
+	AAC = "https://ads.luarmor.net/get_key?for=AAC-bLTGMmZfIQlm",
+	LinkvertiseURL = "https://ads.luarmor.net/get_key?for=Yuri-ODPllbErcWEJ",
+	LootlabsURL = "https://ads.luarmor.net/get_key?for=Lesbian-IpYoiiAdSJVi",
+	DiscordURL = "https://discord.gg/6pCsSbVd3E",
 }
 local LuarmorApi = loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
 local Yuri = loadstring(game:HttpGet("https://raw.githubusercontent.com/iLove-yuri/debug/refs/heads/main/homutop.lua"))()
 LuarmorApi.script_id = GameCfg.id
 if GameCfg.keyless then
-    pcall(function()
-        LuarmorApi.load_script()
-    end)
-    return
+	pcall(function()
+		LuarmorApi.load_script()
+	end)
+	return
 end
 
 if isfile(Cfg.KeyFile) then
-    local SvdKey = readfile(Cfg.KeyFile):gsub("%s", "")
-    local Ok, Rslt = pcall(function()
-        return LuarmorApi.check_key(SvdKey)
-    end)
-    if Ok and Rslt.code == "KEY_VALID" then
-        script_key = SvdKey
-        pcall(function()
-            LuarmorApi.load_script()
-        end)
-        return
-    elseif Ok and Rslt.code == "KEY_HWID_LOCKED" then
-        delfile(Cfg.KeyFile)
-        Plr:Kick("Key is locked to a different HWID. Reset your HWID and re-run.")
-        return
-    else
-        delfile(Cfg.KeyFile)
-        Plr:Kick("Saved key is invalid or expired. Re-run the script to get a new one.")
-        return
-    end
+	local SvdKey = readfile(Cfg.KeyFile):gsub("%s", "")
+	local Ok, Rslt = pcall(function()
+		return LuarmorApi.check_key(SvdKey)
+	end)
+	if Ok and Rslt.code == "KEY_VALID" then
+		script_key = SvdKey
+		pcall(function()
+			LuarmorApi.load_script()
+		end)
+		return
+	elseif Ok and Rslt.code == "KEY_HWID_LOCKED" then
+		delfile(Cfg.KeyFile)
+		Plr:Kick("Key is locked to a different HWID. Reset your HWID and re-run.")
+		return
+	else
+		delfile(Cfg.KeyFile)
+		Plr:Kick("Saved key is invalid or expired. Re-run the script to get a new one.")
+		return
+	end
 end
 local function ValidateKey(Key, Ntfy, Sg)
 	local ClnKey = Key:gsub("%s", "")
@@ -123,12 +123,12 @@ local function ValidateKey(Key, Ntfy, Sg)
 	end
 end
 Yuri.new({
-    TweenService = TweenService,
-    UserInputService = UserInputService,
-    CoreGui = CoreGui,
-    TextService = TextService,
-    RunService = RunService,
-    config = Cfg,
-    scriptKey = script_key,
-    onCheckKey = ValidateKey,
+	TweenService = TweenService,
+	UserInputService = UserInputService,
+	CoreGui = CoreGui,
+	TextService = TextService,
+	RunService = RunService,
+	config = Cfg,
+	scriptKey = script_key,
+	onCheckKey = ValidateKey,
 })
