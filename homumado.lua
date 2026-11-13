@@ -31,7 +31,7 @@ local Lst = {
 	{gid = {"7359962123"}, id = "f3cdf28dc70b1249611f4d9e92b15c4e", keyless = false}, -- aac
 	{gid = {"10529769390", "7613921865","3913007563", "1962399895", "10516888336", "9866884975", "10428418645", "10743048214", "10263156813", "10767913047", "10768934591", "10769361895", "10766473593", "10770256752", "10770228857", "10768532216", "10769787444"}, id = "245e817ec11f0591898dbef698f5a598", keyless = false}, -- gambling, castle, bubble, r, ae, tbb, ba, ttdlllslslsl, td, neb, syb, trench, fts, metro, steal zombie, ch3, superpower, horse, above
 	{gid = {"9219838330", "6749892429", "7990186056", "7300616172", "10393620082","10340119210", "7585140258", "7738524573", "7970033072", "10241783978", "10604233923", "10703226578", "10414383300", "8875954667", "10768558548", "10771805737", "10770609435", "10772114384"}, id = "d310529bba1c9560607c620cc8664b89", keyless = false}, -- pml, spm, eve, tower, purge, asmr, fish, dumpling, runaways, rtd, ishin, ub, motel, jjk farm, bridge
-	{gid = {"9980077437", "5691634893","10504918958", "10099615394", "6628327758", "10439568447", "10766506199", "10768128625", "10768541373", "10768556372", "10769188452", "10768625767", "10768449395", "10769965862", "10768383600", "7144947546", "10771273649", "10578076062"}, id = "d8e39dd7c8bfa5015a2c48dc361d656f", keyless = false}, -- rng, overdrive, vut, squishy, drill, base, dino, ut, dd, ca, lumber, rp, medved, pte, atr
+	{gid = {"9980077437", "5691634893","10504918958", "10099615394", "6628327758", "10439568447", "10766506199", "10768128625", "10768541373", "10768556372", "10769188452", "10768625767", "10768449395", "10769965862", "10768383600", "7144947546", "10771273649", "10578076062", "10771760061"}, id = "d8e39dd7c8bfa5015a2c48dc361d656f", keyless = false}, -- rng, overdrive, vut, squishy, drill, base, dino, ut, dd, ca, lumber, rp, medved, pte, atr
 	{gid = {"10764328008", "9584946743","9826885587","10475794799", "10405010493", "10539411000", "10529067596", "9906378607", "10772636982", "10765582175", "10282097014", "10768176407", "10768689412", "10769415620", "10493707858", "10769249409", "10771966586", "10769850160", "10701622575"}, id = "74b4e982b9b980d106fc43e8ca53f248", keyless = false}, -- 🧱, ii, pf, sandwich, evo, blocklll, dig, wash, cleanleaf, sr, golf, hole, scooter, icecream, animepack
 	{gid = {"7037673488", "8161187430", "10255492538", "10356701370","8191321227", "10376944238", "10517428659","10690360998", "10769594564", "10741654282","10393438342","10471427008","10768358494", "10769548496", "10599406058", "10768003706", "10772253152", "9867225552"}, id = "3781eb1fc444bef291a013c0e69f7c2a", keyless = false}, -- skeleton, ti, qua,li, stealbase, overture, bad, byb, map, ctf, abr
 	{gid = {"10762636904", "9734147105", "8079278639","7934320560","10399136326", "6970571017", "10109877123", "10767408330", "6272727021", "10769802973", "10768069442", "10767808614", "10769020444", "10768197635", "10771680162", "10771327607"}, id = "79c4f538aba5d702cd1b7795737a36d1", keyless = false}, --, cu, ma, s, u, animeg, 5n, aaa, ant, tank, pa, egg, scare, tcs, drive, prison
@@ -71,26 +71,51 @@ if GameCfg.keyless then
 	return
 end
 
+local KeyStatus = {
+	KEY_EXPIRED = { Msg = "Key has expired.", true },
+	KEY_BANNED = { Msg = "Key is blacklisted.", true },
+	KEY_HWID_LOCKED = { Msg = "Key is locked to a different HWID. Reset your HWID and re-run.", true },
+	KEY_INCORRECT = { Msg = "Key is incorrect or was deleted.", true },
+	KEY_INVALID = { Msg = "Key is in an invalid format (empty, too short or too long).", true },
+	SCRIPT_ID_INCORRECT = { Msg = "Script ID does not exist or was deleted. Contact support." },
+	SCRIPT_ID_INVALID = { Msg = "Script ID is in an invalid format. Contact support." },
+	INVALID_EXECUTOR = { Msg = "Executor is not supported." },
+	SECURITY_ERROR = { Msg = "Request could not be validated. Try again." },
+	TIME_ERROR = { Msg = "Client time is invalid. Check your system clock and try again." },
+	UNKNOWN_ERROR = { Msg = "Unknown server error. Try again later or contact support." },
+}
+local function DescribeKeyStatus(Rslt)
+	if type(Rslt) ~= "table" or Rslt.code == nil then
+		return "Unexpected response: " .. tostring(Rslt)
+	end
+	local Info = KeyStatus[Rslt.code]
+	local Msg = Info and Info.Msg or tostring(Rslt.message or "Unknown status.")
+	return Msg .. " (" .. tostring(Rslt.code) .. ")"
+end
 if isfile(Cfg.KeyFile) then
 	local SvdKey = readfile(Cfg.KeyFile):gsub("%s", "")
 	local Ok, Rslt = pcall(function()
 		return LuarmorApi.check_key(SvdKey)
 	end)
-	if Ok and Rslt.code == "KEY_VALID" then
+	if not Ok then
+		Plr:Kick("Network error while checking saved key: " .. tostring(Rslt))
+		return
+	end
+	if type(Rslt) == "table" and Rslt.code == "KEY_VALID" then
 		script_key = SvdKey
 		pcall(function()
 			LuarmorApi.load_script()
 		end)
 		return
-	elseif Ok and Rslt.code == "KEY_HWID_LOCKED" then
-		delfile(Cfg.KeyFile)
-		Plr:Kick("Key is locked to a different HWID. Reset your HWID and re-run.")
-		return
-	else
-		delfile(Cfg.KeyFile)
-		Plr:Kick("Saved key is invalid or expired. Re-run the script to get a new one.")
-		return
 	end
+	local Info = type(Rslt) == "table" and KeyStatus[Rslt.code] or nil
+	if Info and Info[1] then
+		delfile(Cfg.KeyFile)
+		Plr:Kick("Saved key rejected: " .. DescribeKeyStatus(Rslt))
+	else
+		Plr:Kick("Key check failed: " .. DescribeKeyStatus(Rslt))
+	end
+	return
 end
 local function ValidateKey(Key, Ntfy, Sg)
 	local ClnKey = Key:gsub("%s", "")
@@ -103,10 +128,10 @@ local function ValidateKey(Key, Ntfy, Sg)
 		return LuarmorApi.check_key(ClnKey)
 	end)
 	if not Ok then
-		Ntfy("Network error. Check your connection.", Color3.fromRGB(255, 60, 60))
+		Ntfy("Network error. Check your connection. (" .. tostring(Rslt) .. ")", Color3.fromRGB(255, 60, 60))
 		return false
 	end
-	if Rslt.code == "KEY_VALID" then
+	if type(Rslt) == "table" and Rslt.code == "KEY_VALID" then
 		if not isfolder("yuri") then
 			makefolder("yuri")
 		end
@@ -118,7 +143,7 @@ local function ValidateKey(Key, Ntfy, Sg)
 		end)
 		return true
 	else
-		Ntfy("Invalid or expired key", Color3.fromRGB(255, 60, 60))
+		Ntfy(DescribeKeyStatus(Rslt), Color3.fromRGB(255, 60, 60))
 		return false
 	end
 end
