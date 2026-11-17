@@ -18,7 +18,6 @@ Services = setmetatable({}, {
 		end
 	end
 })
-
 local CoreGui = Services.CoreGui
 local TextService = Services.TextService
 local Players = Services.Players
@@ -50,12 +49,8 @@ if not GameCfg then
 	Plr:Kick("This game is not supported.")
 	return
 end
-if CoreGui:FindFirstChild("iLoveyuri") then
-	CoreGui.iLoveyuri:Destroy()
-end
 local Cfg = {
 	KeyFile = "yuri/savedkey.txt",
-	Title = "Yuri",
 	AAC = "https://ads.luarmor.net/get_key?for=AAC-bLTGMmZfIQlm",
 	LinkvertiseURL = "https://ads.luarmor.net/get_key?for=Yuri-ODPllbErcWEJ",
 	LootlabsURL = "https://ads.luarmor.net/get_key?for=Lesbian-IpYoiiAdSJVi",
@@ -83,13 +78,12 @@ if GameCfg.keyless then
 	end)
 	return
 end
-local function DescribeKeyStatus(Rslt)
+local function KeyStatus(Rslt)
 	if type(Rslt) ~= "table" or Rslt.code == nil then
 		return "Unexpected response: " .. tostring(Rslt)
 	end
 	local Info = Cfg.Key[Rslt.code]
-	local Msg = Info and Info.Msg or tostring(Rslt.message or "Unknown status.")
-	return Msg
+	return Info and Info.Msg or tostring(Rslt.message or "Unknown status.")
 end
 if isfile(Cfg.KeyFile) then
 	local SvdKey = readfile(Cfg.KeyFile):gsub("%s", "")
@@ -107,12 +101,12 @@ if isfile(Cfg.KeyFile) then
 		end)
 		return
 	end
-	local Info = type(Rslt) == "table" and Cfg.Key[Rslt.code] or nil
+	local Info = type(Rslt) == "table" and Cfg.Key[Rslt.code]
 	if Info and Info[1] then
 		delfile(Cfg.KeyFile)
-		Plr:Kick("Saved key rejected: " .. DescribeKeyStatus(Rslt))
+		Plr:Kick("Saved key rejected: " .. KeyStatus(Rslt))
 	else
-		Plr:Kick("Key check failed: " .. DescribeKeyStatus(Rslt))
+		Plr:Kick("Key check failed: " .. KeyStatus(Rslt))
 	end
 	return
 end
@@ -138,7 +132,7 @@ local function ValidateKey(Key, Ntfy, Sg)
 		end)
 		return true
 	else
-		Ntfy(DescribeKeyStatus(Rslt), Color3.fromRGB(255, 60, 60))
+		Ntfy(KeyStatus(Rslt), Color3.fromRGB(255, 60, 60))
 		return false
 	end
 end
