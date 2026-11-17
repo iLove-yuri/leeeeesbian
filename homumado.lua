@@ -60,6 +60,19 @@ local Cfg = {
 	LinkvertiseURL = "https://ads.luarmor.net/get_key?for=Yuri-ODPllbErcWEJ",
 	LootlabsURL = "https://ads.luarmor.net/get_key?for=Lesbian-IpYoiiAdSJVi",
 	DiscordURL = "https://discord.gg/6pCsSbVd3E",
+	Key = {
+		KEY_EXPIRED = { Msg = "Key has expired.", true },
+		KEY_BANNED = { Msg = "Key is blacklisted.", true },
+		KEY_HWID_LOCKED = { Msg = "Key is locked to a different HWID. Reset your HWID and re-run.", true },
+		KEY_INCORRECT = { Msg = "Key is incorrect or was deleted.", true },
+		KEY_INVALID = { Msg = "Key is in an invalid format.", true },
+		SCRIPT_ID_INCORRECT = { Msg = "Script ID does not exist or was deleted. Contact support." },
+		SCRIPT_ID_INVALID = { Msg = "Script ID is in an invalid format. Contact support." },
+		INVALID_EXECUTOR = { Msg = "Executor is not supported." },
+		SECURITY_ERROR = { Msg = "Request could not be validated. Try again." },
+		TIME_ERROR = { Msg = "Client time is invalid. Check your system clock and try again." },
+		UNKNOWN_ERROR = { Msg = "Unknown server error. Try again later or contact support." },
+	},
 }
 local LuarmorApi = loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
 local Yuri = loadstring(game:HttpGet("https://raw.githubusercontent.com/iLove-yuri/debug/refs/heads/main/homutop.lua"))()
@@ -70,25 +83,11 @@ if GameCfg.keyless then
 	end)
 	return
 end
-
-local KeyStatus = {
-	KEY_EXPIRED = { Msg = "Key has expired.", true },
-	KEY_BANNED = { Msg = "Key is blacklisted.", true },
-	KEY_HWID_LOCKED = { Msg = "Key is locked to a different HWID. Reset your HWID and re-run.", true },
-	KEY_INCORRECT = { Msg = "Key is incorrect or was deleted.", true },
-	KEY_INVALID = { Msg = "Key is in an invalid format.", true },
-	SCRIPT_ID_INCORRECT = { Msg = "Script ID does not exist or was deleted. Contact support." },
-	SCRIPT_ID_INVALID = { Msg = "Script ID is in an invalid format. Contact support." },
-	INVALID_EXECUTOR = { Msg = "Executor is not supported." },
-	SECURITY_ERROR = { Msg = "Request could not be validated. Try again." },
-	TIME_ERROR = { Msg = "Client time is invalid. Check your system clock and try again." },
-	UNKNOWN_ERROR = { Msg = "Unknown server error. Try again later or contact support." },
-}
 local function DescribeKeyStatus(Rslt)
 	if type(Rslt) ~= "table" or Rslt.code == nil then
 		return "Unexpected response: " .. tostring(Rslt)
 	end
-	local Info = KeyStatus[Rslt.code]
+	local Info = Cfg.Key[Rslt.code]
 	local Msg = Info and Info.Msg or tostring(Rslt.message or "Unknown status.")
 	return Msg
 end
@@ -108,7 +107,7 @@ if isfile(Cfg.KeyFile) then
 		end)
 		return
 	end
-	local Info = type(Rslt) == "table" and KeyStatus[Rslt.code] or nil
+	local Info = type(Rslt) == "table" and Cfg.Key[Rslt.code] or nil
 	if Info and Info[1] then
 		delfile(Cfg.KeyFile)
 		Plr:Kick("Saved key rejected: " .. DescribeKeyStatus(Rslt))
