@@ -90,7 +90,7 @@ local function DescribeKeyStatus(Rslt)
 	end
 	local Info = KeyStatus[Rslt.code]
 	local Msg = Info and Info.Msg or tostring(Rslt.message or "Unknown status.")
-	return Msg .. " (" .. tostring(Rslt.code) .. ")"
+	return Msg
 end
 if isfile(Cfg.KeyFile) then
 	local SvdKey = readfile(Cfg.KeyFile):gsub("%s", "")
