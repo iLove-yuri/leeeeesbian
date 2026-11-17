@@ -76,7 +76,7 @@ local KeyStatus = {
 	KEY_BANNED = { Msg = "Key is blacklisted.", true },
 	KEY_HWID_LOCKED = { Msg = "Key is locked to a different HWID. Reset your HWID and re-run.", true },
 	KEY_INCORRECT = { Msg = "Key is incorrect or was deleted.", true },
-	KEY_INVALID = { Msg = "Key is in an invalid format (empty, too short or too long).", true },
+	KEY_INVALID = { Msg = "Key is in an invalid format.", true },
 	SCRIPT_ID_INCORRECT = { Msg = "Script ID does not exist or was deleted. Contact support." },
 	SCRIPT_ID_INVALID = { Msg = "Script ID is in an invalid format. Contact support." },
 	INVALID_EXECUTOR = { Msg = "Executor is not supported." },
@@ -119,10 +119,6 @@ if isfile(Cfg.KeyFile) then
 end
 local function ValidateKey(Key, Ntfy, Sg)
 	local ClnKey = Key:gsub("%s", "")
-	if #ClnKey ~= 32 then
-		Ntfy("Invalid key format (must be 32 characters)", Color3.fromRGB(255, 60, 60))
-		return false
-	end
 	Ntfy("Validating key...", Color3.fromRGB(220, 220, 220))
 	local Ok, Rslt = pcall(function()
 		return LuarmorApi.check_key(ClnKey)
